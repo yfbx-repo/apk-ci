@@ -1,14 +1,14 @@
 import 'package:args/command_runner.dart';
 import 'package:apk/commands/apk_runner.dart';
 import 'package:apk/commands/cmd_cert.dart';
-import 'package:apk/commands/cmd_upload.dart';
+import 'package:apk/commands/cmd_publish.dart';
 
 void main(List<String> arguments) {
   final runner = CommandRunner('apk', 'apk tools');
   final apkRunner = ApkRunner(runner.argParser);
 
   runner.addCommand(CertCmd());
-  runner.addCommand(UploadCmd());
+  runner.addCommand(PublishCmd());
 
   if (arguments.isEmpty) {
     apkRunner.run(arguments);

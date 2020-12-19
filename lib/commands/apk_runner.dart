@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:apk/tools/common.dart';
-import 'package:apk/tools/pgyer_uploader.dart';
+import 'package:apk/tools.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 import 'package:shell/shell.dart';
