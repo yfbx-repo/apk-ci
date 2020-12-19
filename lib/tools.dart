@@ -102,7 +102,6 @@ void postDing(String markdown) async {
 ///
 Map<String, String> loadConfigs() {
   final file = File('./local.properties');
-  print(file.existsSync() ? '文件存在' : '文件不存在');
   final map = <String, String>{};
   if (file.existsSync()) {
     final lines = file.readAsLinesSync();

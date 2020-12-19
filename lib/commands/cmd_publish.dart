@@ -10,10 +10,10 @@ import 'cmd_base.dart';
 ///
 class PublishCmd extends BaseCmd {
   @override
-  String get description => 'upload apk to pgyer';
+  String get description => 'upload apk to pgyer and post to dingding';
 
   @override
-  String get name => 'upload';
+  String get name => 'publish';
 
   @override
   void buildArgs(ArgParser argParser) {
