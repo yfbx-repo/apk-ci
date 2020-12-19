@@ -76,6 +76,7 @@ String buildMarkdown(
 ///发送消息到钉钉
 ///
 void postDing(String markdown) async {
+  print('\n正在发送钉钉消息...\n');
   final params = {
     'msgtype': 'markdown',
     'markdown': {
