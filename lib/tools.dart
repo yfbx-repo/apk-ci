@@ -21,6 +21,7 @@ Future publish(FileSystemEntity apk, String msg) async {
 ///上传到蒲公英
 ///
 Future<Map> upload2Pgy(FileSystemEntity apk, String msg) async {
+  print('\n正在上传文件...\n');
   final configs = loadConfigs();
   final url = 'https://upload.pgyer.com/apiv1/app/upload';
 

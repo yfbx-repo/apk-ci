@@ -86,7 +86,9 @@ class ApkRunner {
     String flavor,
   ) async {
     final type = isRelease ? 'Release' : 'Debug';
+    print('\n正在清理文件...\n');
     await shell.startAndReadAsString('gradlew', ['clean']);
+    print('\n正在打包...\n');
     await shell.startAndReadAsString('gradlew', ['assemble$flavor$type']);
 
     final files = await Directory(project).list(
@@ -105,7 +107,9 @@ class ApkRunner {
     String flavor,
   ) async {
     final type = isRelease ? '--release' : '--debug';
+    print('\n正在清理文件...\n');
     await shell.startAndReadAsString('flutter', ['clean']);
+    print('\n正在打包...\n');
     await shell.startAndReadAsString(
       'flutter',
       ['build', 'apk', type, if (flavor.isNotEmpty) '--flavor $flavor'],
