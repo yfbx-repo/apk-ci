@@ -1,5 +1,14 @@
 # CI 自动打包
 
+在项目根目录下新建`local.properties`文件,配置以下信息:   
+```
+userKey=蒲公英 user key
+apiKey=蒲公英 api key
+token=钉钉机器人token
+```
+然后将dart插件注册到全局,或生成可执行文件,即可使用。
+
+
 ### dart 插件  
 1. 在`pubspec.yaml`将脚本注册为可执行程序,可以注册多个    
 ```
