@@ -86,10 +86,13 @@ class ApkRunner {
     String flavor,
   ) async {
     final type = isRelease ? 'Release' : 'Debug';
+
     print('\n正在清理文件...\n');
-    await shell.startAndReadAsString('gradlew', ['clean']);
+    await shell.run('gradlew', ['clean']).then((value) => print(value.stdout));
+    ;
     print('\n正在打包...\n');
-    await shell.startAndReadAsString('gradlew', ['assemble$flavor$type']);
+    await shell.run('gradlew', ['assemble$flavor$type']).then(
+        (value) => print(value.stdout));
 
     final files = await Directory(project).list(
       recursive: true, //递归到子目录
@@ -107,13 +110,15 @@ class ApkRunner {
     String flavor,
   ) async {
     final type = isRelease ? '--release' : '--debug';
+
     print('\n正在清理文件...\n');
-    await shell.startAndReadAsString('flutter', ['clean']);
+    await shell.run('flutter', ['clean']).then((value) => print(value.stdout));
+
     print('\n正在打包...\n');
-    await shell.startAndReadAsString(
+    await shell.run(
       'flutter',
       ['build', 'apk', type, if (flavor.isNotEmpty) '--flavor $flavor'],
-    );
+    ).then((value) => print(value.stdout));
 
     final dir = '$project/build';
     final files = await Directory(dir).list(

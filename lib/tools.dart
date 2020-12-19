@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:apk/configs.dart';
 import 'package:args/args.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as path;
@@ -22,14 +23,13 @@ Future publish(FileSystemEntity apk, String msg) async {
 ///
 Future<Map> upload2Pgy(FileSystemEntity apk, String msg) async {
   print('\n正在上传文件...\n');
-  final configs = loadConfigs();
   final url = 'https://upload.pgyer.com/apiv1/app/upload';
 
   final apkName = path.basename(apk.path);
   final filePart = await MultipartFile.fromFile(apk.path, filename: apkName);
   final formData = FormData.fromMap({
-    'uKey': configs['userKey'],
-    '_api_key': configs['apiKey'],
+    'uKey': Configs.userKey,
+    '_api_key': Configs.apiKey,
     'installType': 1,
     'updateDescription': msg,
     'file': filePart,
@@ -84,7 +84,7 @@ void postDing(String markdown) async {
     }
   };
 
-  final token = loadConfigs()['token'];
+  final token = Configs.token;
   final client = HttpClient();
   final url = 'https://oapi.dingtalk.com/robot/send?access_token=$token';
   final request = await client.postUrl(Uri.parse(url));
@@ -93,27 +93,6 @@ void postDing(String markdown) async {
   final response = await request.close();
   final responseBody = await response.transform(utf8.decoder).join();
   print(responseBody.toString());
-}
-
-///
-///从local.properties 中加载配置
-///userKey    蒲公英userKey
-///apiKey     蒲公英apiKey
-///token      钉钉机器人token
-///
-Map<String, String> loadConfigs() {
-  final file = File('./local.properties');
-  final map = <String, String>{};
-  if (file.existsSync()) {
-    final lines = file.readAsLinesSync();
-    lines.forEach((element) {
-      final e = element.split('=');
-      final key = e[0].trim();
-      final value = e[1].trim();
-      map[key] = value;
-    });
-  }
-  return map;
 }
 
 ///
