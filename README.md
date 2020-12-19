@@ -41,16 +41,22 @@ apk 1.0.0 at path "D:\xxx\apk_tool"
 
 3. 运行脚本,测试命令
 ```
-> apk
+> apk --help
 apk tools
 
 Usage: apk <command> [arguments]
 
 Global options:
--h, --help    Print this usage information.
+-h, --help       Print this usage information.
+-r, --release    Build a release version of your app.
+-d, --debug      Build a debug version of your app (default mode).
+-f, --flavor     Build a custom  flavor app.
+-p, --path       Your project directory path
+-m, --msg        The DingTalk robot message
 
 Available commands:
   printcert   print apk cert infomation
+  publish     upload apk to pgyer and post to dingding
 
 Run "apk help <command>" for more information about a command.
 ```
