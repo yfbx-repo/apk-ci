@@ -1,14 +1,12 @@
 import 'package:args/args.dart';
-import 'package:shell/shell.dart';
 
+import '../tools.dart';
 import 'cmd_base.dart';
 
 ///
 ///打印APK签名信息
 ///
 class CertCmd extends BaseCmd {
-  final shell = Shell();
-
   @override
   String get description => 'print apk cert infomation';
 
@@ -32,10 +30,8 @@ class CertCmd extends BaseCmd {
       return;
     }
 
-    final result = await shell.run(
-      'keytool',
-      ['-list', '-printcert', '-jarfile', file],
-    );
+    final result =
+        await runSync('keytool -list -printcert -jarfile $file', './');
     final info = result.stdout;
     print(info);
     final startIndex = info.indexOf('MD5:') + 6;

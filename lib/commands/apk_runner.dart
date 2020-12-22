@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:apk/tools.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
-import 'package:shell/shell.dart';
 
 class ApkRunner {
   final ArgParser argParser;
-  final shell = Shell();
 
   ApkRunner(this.argParser) {
     //release apk
@@ -56,7 +54,6 @@ class ApkRunner {
     final flavor = args.getString('flavor');
     final msg = args.getString('msg');
     final project = args.getString('path', defaultValue: './');
-    shell.workingDirectory = project;
 
     //原生项目打包
     if (isNativeProject(project)) {
@@ -88,16 +85,16 @@ class ApkRunner {
     final type = isRelease ? 'Release' : 'Debug';
 
     print('\n正在清理文件...\n');
-    await shell.run('gradlew', ['clean']).then((value) => print(value.stdout));
-    ;
+    await shell('gradlew clean', project);
+
     print('\n正在打包...\n');
-    await shell.run('gradlew', ['assemble$flavor$type']).then(
-        (value) => print(value.stdout));
+    await shell('gradlew assemble$flavor$type', project);
 
     final files = await Directory(project).list(
       recursive: true, //递归到子目录
       followLinks: false, //不包含链接
     );
+
     return files.firstWhere((file) => path.extension(file.path) == '.apk');
   }
 
@@ -110,15 +107,13 @@ class ApkRunner {
     String flavor,
   ) async {
     final type = isRelease ? '--release' : '--debug';
+    final flavorType = flavor.isEmpty ? '' : '--flavor $flavor';
 
     print('\n正在清理文件...\n');
-    await shell.run('flutter', ['clean']).then((value) => print(value.stdout));
+    await shell('flutter clean', project);
 
     print('\n正在打包...\n');
-    await shell.run(
-      'flutter',
-      ['build', 'apk', type, if (flavor.isNotEmpty) '--flavor $flavor'],
-    ).then((value) => print(value.stdout));
+    await shell('flutter build apk $type $flavorType', project);
 
     final dir = '$project/build';
     final files = await Directory(dir).list(
