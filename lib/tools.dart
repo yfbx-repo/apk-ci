@@ -10,8 +10,10 @@ import 'package:path/path.dart' as path;
 ///
 ///上传到蒲公英并发送钉钉消息
 ///
-Future publish(FileSystemEntity apk, String msg) async {
+void publish(FileSystemEntity apk, String msg) async {
   final map = await upload2Pgy(apk, msg);
+  final uploadSucceed = map['ok'] == true;
+  if (!uploadSucceed) return;
   final apkName = path.basename(apk.path);
   final qrcode = map['appQRCodeURL'] as String;
   final shortUrl = map['appShortcutUrl'] as String;
