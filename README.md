@@ -15,6 +15,10 @@ executables:
 `apk: main` apk 是命令名称，main是脚本入口文件名(main.dart),即main函数所在文件，执行命令形式:    
 ```
 apk <commond> [args]
+//如：打release包
+apk --release -m "更新说明，会随二维码一起发送到钉钉群，可省略"
+//配置了多渠道时，可以指定渠道，加入渠道名称为 Test
+apk -f Test
 ```        
 同一项目中可以注册多个脚本，即可以有多个main函数入口      
 
