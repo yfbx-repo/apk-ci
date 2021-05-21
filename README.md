@@ -12,7 +12,10 @@ executables:
   apk: main
   cert: cert
 ```
-`apk: main` apk 是命令名称，main是脚本入口文件名(main.dart),即main函数所在文件，执行命令形式`apk <commond> [args]`        
+`apk: main` apk 是命令名称，main是脚本入口文件名(main.dart),即main函数所在文件，执行命令形式:    
+```
+apk <commond> [args]
+```        
 同一项目中可以注册多个脚本，即可以有多个main函数入口      
 
 2. 进入项目根目录，将文件包注册到全局。也可以在任意目录，--source path [包路径]
