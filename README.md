@@ -1,17 +1,19 @@
 # CI 自动打包
 
+用于自动打包Android项目或Flutter项目APK,并使用钉钉机器人自动发布下载二维码到钉钉群，以供测试。    
 修改configs文件中的配置信息，然后将dart插件注册到全局，或生成可执行文件，即可使用。
 
 
 ### dart 插件  
-1. 在`pubspec.yaml`将脚本注册为可执行程序,可以注册多个    
+1. 可在`pubspec.yaml`中修改脚本命令名称，可以注册多个脚本   
 ```
 # 包名: 脚本名称
 executables:
   apk: main
   cert: cert
 ```
-命令名称就是包名，如注`apk: main` ,在命令行中直接运行`apk <commond> [args]`    
+`apk: main` apk 是命令名称，main是脚本入口文件名(main.dart),即main函数所在文件，执行命令形式`apk <commond> [args]`        
+同一项目中可以注册多个脚本，即可以有多个main函数入口      
 
 2. 进入项目根目录，将文件包注册到全局。也可以在任意目录，--source path [包路径]
 
