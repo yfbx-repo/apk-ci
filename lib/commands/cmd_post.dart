@@ -1,23 +1,19 @@
-import 'dart:io';
-
-import 'package:apk/configs.dart';
 import 'package:apk/utils/dingding.dart';
 import 'package:apk/utils/feishu.dart';
-import 'package:apk/utils/net.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import 'cmd_base.dart';
 
 ///
-///上传APK到蒲公英
+///发送机器人消息
 ///
-class PublishCmd extends BaseCmd {
+class PostCmd extends BaseCmd {
   @override
-  String get description => 'upload apk to pgyer and post to dingding';
+  String get description => 'post robot message to dingding or feishu';
 
   @override
-  String get name => 'publish';
+  String get name => 'post';
 
   @override
   void buildArgs(ArgParser argParser) {
@@ -27,9 +23,19 @@ class PublishCmd extends BaseCmd {
       help: 'The APK file to publish.',
     );
     argParser.addOption(
+      'url',
+      abbr: 'u',
+      help: 'APK download url.',
+    );
+    argParser.addOption(
       'msg',
       abbr: 'm',
       help: 'The publish message.',
+    );
+    argParser.addOption(
+      'image',
+      abbr: 'i',
+      help: 'Qrcode image url or image key',
     );
     argParser.addFlag(
       'dingding',
@@ -51,40 +57,33 @@ class PublishCmd extends BaseCmd {
       return;
     }
 
-    final file = args.length == 1 ? args[0] : getString('file');
+    final file = getString('file');
 
     if (!file.endsWith('.apk')) {
       printUsage();
       return;
     }
 
-    final needPostDingding = getBool('dingding');
-    final needPostFeishu = getBool('feishu');
+    final url = getString('url');
     final msg = getString('msg');
+    final image = getString('image');
 
-    final apk = File(file);
-
-    final json = await upload(apk, msg);
-    if (json['code'].integer != 0) {
-      print(json['message'].stringValue);
+    if (url.isEmpty) {
+      print('apk download url is required!');
       return;
     }
-    print('上传成功');
 
-    final apkName = path.basename(apk.path);
-    final qrcode = json['data']['appQRCodeURL'].stringValue;
-    final shortUrl = json['data']['appShortcutUrl'].stringValue;
-    final packageName = json['data']['appIdentifier'].stringValue;
-    final apkUrl = 'https://www.pgyer.com/$shortUrl';
+    final needPostDingding = getBool('dingding');
+    final needPostFeishu = getBool('feishu');
 
+    final apkName = path.basename(file);
     //发送钉钉消息
     if (needPostDingding) {
-      postDingDing(apkName, apkUrl, msg, qrcode);
+      postDingDing(apkName, url, msg, image);
     }
     //发送飞书消息
     if (needPostFeishu) {
-      final imageKey = configs.getImageKey(packageName);
-      postFeishu(apkName, apkUrl, msg, imageKey);
+      postFeishu(apkName, url, msg, image);
     }
   }
 }

@@ -1,7 +1,9 @@
-import 'package:args/command_runner.dart';
 import 'package:apk/commands/apk_runner.dart';
 import 'package:apk/commands/cmd_cert.dart';
+import 'package:apk/commands/cmd_feishu.dart';
+import 'package:apk/commands/cmd_post.dart';
 import 'package:apk/commands/cmd_publish.dart';
+import 'package:args/command_runner.dart';
 
 void main(List<String> arguments) {
   final runner = CommandRunner('apk', 'apk tools');
@@ -9,6 +11,8 @@ void main(List<String> arguments) {
 
   runner.addCommand(CertCmd());
   runner.addCommand(PublishCmd());
+  runner.addCommand(PostCmd());
+  runner.addCommand(FeishuCmd());
 
   if (arguments.isEmpty) {
     apkRunner.run(arguments);

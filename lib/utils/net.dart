@@ -45,34 +45,3 @@ Future<JSON> post(String url, Map<String, dynamic> map) async {
     return JSON.nil;
   }
 }
-
-///
-/// 上传图片到飞书
-///
-void uploadImage(String path) async {
-  //获取token
-  final token = await Dio().post(
-    'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
-    data: {
-      'app_id': 'cli_a02671a31838100d',
-      'app_secret': '3G1zk4z95OmNKcNr9G98PbWU2NLmIR8b',
-    },
-  );
-  print(token);
-  //{"code":0,"expire":7200,"msg":"ok","tenant_access_token":"t-a98bbd932b3847ca098beaac6895ab4856191d48"}
-  final json = JSON.parse(token.toString());
-  final tenantAccessToken = json['tenant_access_token'].stringValue;
-
-  //上传图片
-  final result = await Dio().post(
-    'https://open.feishu.cn/open-apis/image/v4/put/',
-    data: FormData.fromMap({
-      'image_type': 'message',
-      'image': MultipartFile.fromFileSync(path),
-    }),
-    options: Options(headers: {
-      'Authorization': 'Bearer $tenantAccessToken',
-    }),
-  );
-  print(result);
-}
