@@ -1,14 +1,33 @@
+import 'dart:io';
+
+import 'package:g_json/g_json.dart';
+
 ///
-///将以下配置修改为你的配置
+/// 配置信息
 ///
 class Configs {
-  ///蒲公英 user key
-  static const userKey = '06bc537d94a1044b30bd417ce0043d76';
+  JSON _json;
 
-  ///蒲公英 api key
-  static const apiKey = '6d040f4231bcda1dd5613cd27284f9bc';
+  Configs._() {
+    final filePath = 'D:\\demos\\apk_ci\\configs.json';
+    final jsonStr = File(filePath).readAsStringSync();
+    _json = JSON.parse(jsonStr);
+  }
 
-  ///钉钉机器人 token
-  static const token =
-      '2c8e6419bed999f41de4720d3d7c4af2aacd8cab9983adf78f956c6fc407bd11';
+  String get userKey => _json['userKey'].stringValue;
+  String get apiKey => _json['apiKey'].stringValue;
+  String get token => _json['token'].stringValue;
+  String get feishu => _json['feishu'].stringValue;
+  List<JSON> get imageKeys => _json['imageKeys'].listValue;
+  String getImageKey(String package) {
+    final item = imageKeys.firstWhere(
+      (e) => e['package'].stringValue == package,
+      orElse: () => JSON.nil,
+    );
+    return item['key'].stringValue;
+  }
 }
+
+final configs = _initConfigs();
+
+Configs _initConfigs() => Configs._();

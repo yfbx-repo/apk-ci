@@ -1,3 +1,5 @@
+import 'package:apk/configs.dart';
+
 import 'net.dart';
 
 ///
@@ -17,7 +19,7 @@ void postFeishu(
       .toList();
 
   final result = await post(
-    'https://open.feishu.cn/open-apis/bot/v2/hook/cd0562bb-0b22-49ec-8ef6-68e55ef6311d',
+    configs.feishu,
     {
       'msg_type': 'post',
       'content': {
@@ -32,10 +34,7 @@ void postFeishu(
                   'href': apkUrl,
                 }
               ],
-              [
-                {'tag': 'text', 'text': '更新内容 :'},
-                ...updateParams,
-              ],
+              updateParams,
               [
                 {
                   'tag': 'img',

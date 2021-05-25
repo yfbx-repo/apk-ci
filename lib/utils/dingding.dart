@@ -19,7 +19,7 @@ void postDingDing(
   ''';
 
   final result = await post(
-    'https://oapi.dingtalk.com/robot/send?access_token=${Configs.token}',
+    'https://oapi.dingtalk.com/robot/send?access_token=${configs.token}',
     {
       'msgtype': 'markdown',
       'markdown': {

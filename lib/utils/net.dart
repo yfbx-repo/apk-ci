@@ -15,8 +15,8 @@ Future<JSON> upload(FileSystemEntity apk, String msg) async {
   final apkName = path.basename(apk.path);
   final filePart = await MultipartFile.fromFile(apk.path, filename: apkName);
   final formData = FormData.fromMap({
-    'uKey': Configs.userKey,
-    '_api_key': Configs.apiKey,
+    'uKey': configs.userKey,
+    '_api_key': configs.apiKey,
     'installType': 1,
     'updateDescription': msg,
     'file': filePart,
