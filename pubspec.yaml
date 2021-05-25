@@ -10,6 +10,7 @@ dependencies:
   path: ^1.7.0
   args: ^1.6.0
   dio: ^3.0.10
+  g_json: ^4.0.0
 
 dev_dependencies:
   pedantic: ^1.9.0

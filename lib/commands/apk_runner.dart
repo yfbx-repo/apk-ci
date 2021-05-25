@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:apk/tools.dart';
+import 'package:apk/utils/tools.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 

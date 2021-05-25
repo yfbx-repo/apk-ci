@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 
-import '../tools.dart';
+import '../utils/tools.dart';
 import 'cmd_base.dart';
 
 ///

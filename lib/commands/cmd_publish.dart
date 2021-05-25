@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:apk/tools.dart';
+import 'package:apk/utils/net.dart';
+import 'package:apk/utils/tools.dart';
 import 'package:args/args.dart';
 
 import 'cmd_base.dart';
@@ -56,7 +57,7 @@ class PublishCmd extends BaseCmd {
     if (needPost) {
       await publish(File(file), msg);
     } else {
-      await upload2Pgy(File(file), msg);
+      await upload(File(file), msg);
     }
   }
 }
