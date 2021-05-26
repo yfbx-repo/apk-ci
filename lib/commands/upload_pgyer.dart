@@ -1,20 +1,21 @@
 import 'dart:io';
 
 import 'package:apk/configs.dart';
-import 'package:apk/utils/dingding.dart';
-import 'package:apk/utils/feishu.dart';
 import 'package:apk/utils/net.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import 'cmd_base.dart';
+import 'post_dingding.dart';
+import 'post_feishu.dart';
 
 ///
 ///上传APK到蒲公英
 ///
-class PublishCmd extends BaseCmd {
+class UploadPgyer extends BaseCmd {
   @override
-  String get description => 'upload apk to pgyer and post to dingding';
+  String get description =>
+      'upload apk to pgyer and post to dingding or feishu';
 
   @override
   String get name => 'publish';

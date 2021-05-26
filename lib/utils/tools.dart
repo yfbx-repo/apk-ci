@@ -1,35 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:apk/utils/dingding.dart';
-import 'package:apk/utils/feishu.dart';
 import 'package:args/args.dart';
-import 'package:path/path.dart' as path;
-
-import 'net.dart';
-
-///
-///上传到蒲公英并发送钉钉消息
-///
-void publish(FileSystemEntity apk, String msg) async {
-  final json = await upload(apk, msg);
-  if (json['code'].integer != 0) {
-    print(json['message'].stringValue);
-    return;
-  }
-  print('上传成功');
-  final apkName = path.basename(apk.path);
-  final qrcode = json['data']['appQRCodeURL'].stringValue;
-  final shortUrl = json['data']['appShortcutUrl'].stringValue;
-  final packageName = json['data']['appIdentifier'].stringValue;
-  final apkUrl = 'https://www.pgyer.com/$shortUrl';
-  postDingDing(apkName, apkUrl, msg, qrcode);
-
-  final imageKey = packageName == 'com.yuxiaor'
-      ? 'img_v2_2827ce84-1281-4036-8539-2b812cc9525g'
-      : '';
-  postFeishu(apkName, apkUrl, msg, imageKey);
-}
 
 ///
 ///取参扩展

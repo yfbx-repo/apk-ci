@@ -8,12 +8,12 @@ import 'cmd_base.dart';
 ///
 ///上传图片到飞书
 ///
-class FeishuCmd extends BaseCmd {
+class PostImage extends BaseCmd {
   @override
   String get description => 'upload image to feishu';
 
   @override
-  String get name => 'feishu';
+  String get name => 'upload';
 
   @override
   void buildArgs(ArgParser argParser) {}

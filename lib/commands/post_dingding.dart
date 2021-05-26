@@ -1,16 +1,16 @@
-import 'package:apk/utils/dingding.dart';
-import 'package:apk/utils/feishu.dart';
+import 'package:apk/utils/net.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
+import '../configs.dart';
 import 'cmd_base.dart';
 
 ///
 ///发送机器人消息
 ///
-class PostCmd extends BaseCmd {
+class PostDing extends BaseCmd {
   @override
-  String get description => 'post robot message to dingding or feishu';
+  String get description => 'post robot message to dingding';
 
   @override
   String get name => 'post';
@@ -36,16 +36,6 @@ class PostCmd extends BaseCmd {
       'image',
       abbr: 'i',
       help: 'Qrcode image url or image key',
-    );
-    argParser.addFlag(
-      'dingding',
-      negatable: false,
-      help: 'If need to post DingDing message.',
-    );
-    argParser.addFlag(
-      'feishu',
-      negatable: false,
-      help: 'If need to post Feishu message.',
     );
   }
 
@@ -73,17 +63,42 @@ class PostCmd extends BaseCmd {
       return;
     }
 
-    final needPostDingding = getBool('dingding');
-    final needPostFeishu = getBool('feishu');
-
     final apkName = path.basename(file);
-    //发送钉钉消息
-    if (needPostDingding) {
-      postDingDing(apkName, url, msg, image);
-    }
-    //发送飞书消息
-    if (needPostFeishu) {
-      postFeishu(apkName, url, msg, image);
-    }
+    postDingDing(apkName, url, msg, image);
+  }
+}
+
+///
+/// 发送钉钉机器人消息
+///
+void postDingDing(
+  String apkName,
+  String apkUrl,
+  String updateDesc,
+  String imageKey,
+) async {
+  print('发送钉钉机器人消息...');
+
+  final markdown = '''
+  ![](${imageKey})    
+  下载链接：[$apkName]($apkUrl)    
+  更新内容：$updateDesc    
+  ''';
+
+  final result = await post(
+    'https://oapi.dingtalk.com/robot/send?access_token=${configs.token}',
+    {
+      'msgtype': 'markdown',
+      'markdown': {
+        'title': 'Android APK',
+        'text': markdown,
+      },
+    },
+  );
+
+  if (result['errcode'].integer == 0) {
+    print('发送成功');
+  } else {
+    print(result['errmsg'].stringValue);
   }
 }

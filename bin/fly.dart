@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:apk/commands/cmd_cert.dart';
-import 'package:apk/commands/post_dingding.dart';
-import 'package:apk/commands/upload_pgyer.dart';
+import 'package:apk/commands/post_feishu.dart';
+import 'package:apk/commands/post_image.dart';
+import 'package:apk/configs.dart';
 import 'package:apk/utils/builder.dart';
 import 'package:apk/utils/net.dart';
 import 'package:apk/utils/tools.dart';
@@ -11,12 +11,11 @@ import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) {
-  final runner = CommandRunner('apk', 'apk tools');
+  final runner = CommandRunner('fly', '');
   buildArgs(runner.argParser);
 
-  runner.addCommand(CertCmd());
-  runner.addCommand(UploadPgyer());
-  runner.addCommand(PostDing());
+  runner.addCommand(PostFeishu());
+  runner.addCommand(PostImage());
 
   if (arguments.isEmpty) {
     runApk(runner.argParser, arguments);
@@ -63,11 +62,11 @@ void buildArgs(ArgParser argParser) {
     abbr: 'p',
     help: 'Your project directory path',
   );
-  //钉钉机器人消息
+  //飞书机器人消息
   argParser.addOption(
     'msg',
     abbr: 'm',
-    help: 'The robot message post to dingding',
+    help: 'The robot message post to feishu',
   );
 }
 
@@ -86,7 +85,7 @@ void runApk(ArgParser argParser, List<String> arguments) async {
 }
 
 ///
-///上传到蒲公英并发送钉钉消息
+///上传到蒲公英并发送飞书消息
 ///
 void publish(FileSystemEntity apk, String msg) async {
   final json = await upload(apk, msg);
@@ -96,8 +95,8 @@ void publish(FileSystemEntity apk, String msg) async {
   }
   print('上传成功');
   final apkName = path.basename(apk.path);
-  final qrcode = json['data']['appQRCodeURL'].stringValue;
+  final package = json['data']['appIdentifier'].stringValue;
   final shortUrl = json['data']['appShortcutUrl'].stringValue;
   final apkUrl = 'https://www.pgyer.com/$shortUrl';
-  postDingDing(apkName, apkUrl, msg, qrcode);
+  postFeishu(apkName, apkUrl, msg, configs.getImageKey(package));
 }
