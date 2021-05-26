@@ -1,8 +1,8 @@
-import 'package:apk/utils/net.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import '../configs.dart';
+import '../utils/net.dart';
 import 'cmd_base.dart';
 
 ///
@@ -80,7 +80,7 @@ void postDingDing(
   print('发送钉钉机器人消息...');
 
   final markdown = '''
-  ![](${imageKey})    
+  ![]($imageKey)    
   下载链接：[$apkName]($apkUrl)    
   更新内容：$updateDesc    
   ''';

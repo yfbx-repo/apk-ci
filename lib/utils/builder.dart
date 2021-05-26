@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:apk/utils/tools.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
+
+import 'tools.dart';
 
 class Builder {
   final ArgResults args;
@@ -50,7 +51,7 @@ class Builder {
     print('\n正在打包...\n');
     await shell('gradlew assemble$flavor$type', project);
 
-    final files = await Directory(project).list(
+    final files = Directory(project).listSync(
       recursive: true, //递归到子目录
       followLinks: false, //不包含链接
     );
@@ -72,7 +73,7 @@ class Builder {
     await shell('flutter build apk $type $flavorType', project);
 
     final dir = '$project/build';
-    final files = await Directory(dir).list(
+    final files = Directory(dir).listSync(
       recursive: true, //递归到子目录
       followLinks: false, //不包含链接
     );

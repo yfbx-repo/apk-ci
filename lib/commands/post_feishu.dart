@@ -1,8 +1,8 @@
-import 'package:apk/utils/net.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import '../configs.dart';
+import '../utils/net.dart';
 import 'cmd_base.dart';
 
 ///

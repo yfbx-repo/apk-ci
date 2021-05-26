@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:apk/utils/tools.dart';
+
+import '../utils/tools.dart';
 
 abstract class BaseCmd extends Command {
   BaseCmd() {

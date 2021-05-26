@@ -1,8 +1,8 @@
-import 'package:apk/configs.dart';
 import 'package:args/args.dart';
 import 'package:dio/dio.dart';
 import 'package:g_json/g_json.dart';
 
+import '../configs.dart';
 import 'cmd_base.dart';
 
 ///

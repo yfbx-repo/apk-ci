@@ -1,46 +1,70 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 
-import '../utils/tools.dart';
+import '../utils/apk.dart';
 import 'cmd_base.dart';
 
 ///
-///打印APK签名信息
+///打印APK信息
 ///
 class CertCmd extends BaseCmd {
   @override
-  String get description => 'print apk cert infomation';
+  String get description => 'print apk package information';
 
   @override
-  String get name => 'printcert';
+  String get name => 'print';
 
   @override
-  void buildArgs(ArgParser argParser) {}
+  void buildArgs(ArgParser argParser) {
+    argParser.addOption(
+      'file',
+      abbr: 'f',
+      help: 'The APK file.',
+    );
+
+    argParser.addFlag('package', negatable: false, abbr: 'p');
+    argParser.addFlag('MD5', negatable: false);
+    argParser.addFlag('SHA1', negatable: false);
+    argParser.addFlag('SHA256', negatable: false);
+  }
+
+  String get file => getString('file');
+  bool get printPackage => getBool('package');
+  bool get printMD5 => getBool('MD5');
+  bool get printSHA1 => getBool('SHA1');
+  bool get printSHA256 => getBool('SHA256');
 
   @override
   void excute() async {
     final args = argResults.arguments;
-
-    if (args == null || args.isEmpty || args.length > 1) {
-      printHelpInfo();
+    if (args == null || args.isEmpty) {
+      printUsage();
       return;
     }
-    final file = args[0];
-    if (!file.endsWith('.apk')) {
-      printHelpInfo();
+    final filePath = file.isEmpty ? args.last : file;
+    if (!filePath.endsWith('.apk')) {
+      printUsage();
       return;
     }
 
-    final result =
-        await runSync('keytool -list -printcert -jarfile $file', './');
-    final info = result.stdout;
-    print(info);
-    final startIndex = info.indexOf('MD5:') + 6;
-    final endIndex = startIndex + 48;
-    final cert = info.substring(startIndex, endIndex).replaceAll(':', '');
-    print('cert: $cert\n');
-  }
+    final apk = File(filePath);
 
-  void printHelpInfo() {
-    print('\n命令格式：apk printcert [apk file]              打印APK签名信息\n');
+    if (printMD5) {
+      print(apk.certMD5);
+      print(apk.certMD5.split(':').join());
+    }
+    if (printSHA1) {
+      print(apk.certSHA1);
+      print(apk.certSHA1.split(':').join());
+    }
+    if (printSHA256) {
+      print(apk.certSHA256);
+      print(apk.certSHA256.split(':').join());
+    }
+    if (printPackage) {
+      print(apk.appName);
+      print(apk.getApkInfo('package'));
+    }
   }
 }
