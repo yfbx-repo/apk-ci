@@ -85,7 +85,7 @@ class UploadPgyer extends BaseCmd {
     //发送飞书消息
     if (needPostFeishu) {
       final imageKey = configs.getImageKey(packageName);
-      postFeishu(apkName, apkUrl, msg, imageKey);
+      postFeishu(apkName, apkUrl, imageKey, msg);
     }
   }
 }

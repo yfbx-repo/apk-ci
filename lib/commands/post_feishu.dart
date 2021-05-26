@@ -64,7 +64,7 @@ class PostFeishu extends BaseCmd {
     }
 
     final apkName = path.basename(file);
-    postFeishu(apkName, url, msg, image);
+    postFeishu(apkName, url, image, msg);
   }
 }
 
@@ -74,13 +74,14 @@ class PostFeishu extends BaseCmd {
 void postFeishu(
   String apkName,
   String apkUrl,
-  String updateDesc,
   String imageKey,
+  String msg,
 ) async {
   print('发送飞书机器人消息...');
 
-  final updateParams = updateDesc
-      .split(RegExp(r'\r\n?|\n'))
+  //1.换行符分割;2.不能被识别为换行符的\n分割;
+  final updateParams = msg
+      .split(RegExp(r'\r\n?|\n|\\n'))
       .map((e) => {'tag': 'text', 'text': e})
       .toList();
 
@@ -95,20 +96,20 @@ void postFeishu(
             'content': [
               [
                 {
+                  'tag': 'img',
+                  'image_key': imageKey,
+                  'width': 300,
+                  'height': 300
+                }
+              ],
+              [
+                {
                   'tag': 'a',
                   'text': apkName,
                   'href': apkUrl,
                 }
               ],
               updateParams,
-              [
-                {
-                  'tag': 'img',
-                  'image_key': imageKey,
-                  'width': 300,
-                  'height': 300
-                }
-              ]
             ]
           }
         }

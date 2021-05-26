@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:apk/commands/post_feishu.dart';
 import 'package:apk/commands/post_image.dart';
 import 'package:apk/configs.dart';
@@ -76,27 +74,35 @@ void runApk(ArgParser argParser, List<String> arguments) async {
     print(argParser.usage);
     return;
   }
-
+  // build apk
   final builder = Builder(args);
   final apk = await builder.buildApk();
-  if (apk != null) {
-    publish(apk, builder.msg);
+  if (apk == null) {
+    return;
   }
-}
 
-///
-///上传到蒲公英并发送飞书消息
-///
-void publish(FileSystemEntity apk, String msg) async {
-  final json = await upload(apk, msg);
+  // upload
+  final json = await upload(apk, builder.msg);
   if (json['code'].integer != 0) {
     print(json['message'].stringValue);
     return;
   }
   print('上传成功');
+
+  // params
   final apkName = path.basename(apk.path);
   final package = json['data']['appIdentifier'].stringValue;
   final shortUrl = json['data']['appShortcutUrl'].stringValue;
   final apkUrl = 'https://www.pgyer.com/$shortUrl';
-  postFeishu(apkName, apkUrl, msg, configs.getImageKey(package));
+
+  //branch name
+  final result = runSync(
+    'git symbolic-ref --short HEAD',
+    builder.project,
+  );
+  final branchName = result.stdout;
+  final updateDesc = 'branch:$branchName \n${builder.msg}';
+
+  // publish
+  postFeishu(apkName, apkUrl, configs.getImageKey(package), updateDesc);
 }
