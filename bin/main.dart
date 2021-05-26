@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:apk/commands/cmd_cert.dart';
+import 'package:apk/commands/print_info.dart';
 import 'package:apk/commands/post_dingding.dart';
 import 'package:apk/commands/upload_pgyer.dart';
 import 'package:apk/utils/builder.dart';
@@ -14,7 +14,7 @@ void main(List<String> arguments) {
   final runner = CommandRunner('apk', 'apk tools');
   buildArgs(runner.argParser);
 
-  runner.addCommand(CertCmd());
+  runner.addCommand(PrintInfo());
   runner.addCommand(UploadPgyer());
   runner.addCommand(PostDing());
 

@@ -38,11 +38,9 @@ extension APK on FileSystemEntity {
   ///
   String getApkInfo(String filterKey) {
     final filter =
-        Platform.isWindows ? '|findStr filterKey' : '|grep filterKey';
+        Platform.isWindows ? '|findStr $filterKey' : '|grep $filterKey';
     final result = runSync('aapt dump badging $path $filter', './');
-    final info = result.stdout.toString().trim();
-    print(info);
-    return info;
+    return result.stdout.toString().trim();
   }
 
   String get certMD5 => _getCertInfo('MD5');
@@ -58,8 +56,6 @@ extension APK on FileSystemEntity {
     final cmd = 'keytool -list -printcert -jarfile $path $filter';
     final result = runSync(cmd, './');
     final info = result.stdout.toString().trim();
-    print(info);
-    // MD5:  8E:CA:92:37:87:DF:E6:86:DA:E7:58:FC:3F:A3:73:78
     return info.replaceFirst('$type:', '').trim();
   }
 }

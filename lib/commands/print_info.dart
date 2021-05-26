@@ -8,7 +8,7 @@ import 'cmd_base.dart';
 ///
 ///打印APK信息
 ///
-class CertCmd extends BaseCmd {
+class PrintInfo extends BaseCmd {
   @override
   String get description => 'print apk package information';
 
@@ -63,7 +63,6 @@ class CertCmd extends BaseCmd {
       print(apk.certSHA256.split(':').join());
     }
     if (printPackage) {
-      print(apk.appName);
       print(apk.getApkInfo('package'));
     }
   }
