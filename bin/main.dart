@@ -1,9 +1,8 @@
-import 'dart:io';
-
-import 'package:apk/commands/print_info.dart';
 import 'package:apk/commands/post_dingding.dart';
+import 'package:apk/commands/print_info.dart';
 import 'package:apk/commands/upload_pgyer.dart';
 import 'package:apk/utils/builder.dart';
+import 'package:apk/utils/ding.dart';
 import 'package:apk/utils/net.dart';
 import 'package:apk/utils/tools.dart';
 import 'package:args/args.dart';
@@ -80,24 +79,26 @@ void runApk(ArgParser argParser, List<String> arguments) async {
 
   final builder = Builder(args);
   final apk = await builder.buildApk();
-  if (apk != null) {
-    publish(apk, builder.msg);
+  if (apk == null) {
+    return;
   }
-}
 
-///
-///上传到蒲公英并发送钉钉消息
-///
-void publish(FileSystemEntity apk, String msg) async {
-  final json = await upload(apk, msg);
+  //upload
+  final json = await net.upload(apk, builder.msg);
   if (json['code'].integer != 0) {
     print(json['message'].stringValue);
     return;
   }
   print('上传成功');
+
+  //params
   final apkName = path.basename(apk.path);
   final qrcode = json['data']['appQRCodeURL'].stringValue;
   final shortUrl = json['data']['appShortcutUrl'].stringValue;
   final apkUrl = 'https://www.pgyer.com/$shortUrl';
-  postDingDing(apkName, apkUrl, msg, qrcode);
+  //branch name
+  final result = runSync('git symbolic-ref --short HEAD', builder.project);
+  final branchName = result.stdout;
+  //publish
+  ding.post(branchName, apkName, apkUrl, builder.msg, qrcode);
 }

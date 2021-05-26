@@ -2,6 +2,7 @@ import 'package:apk/commands/post_feishu.dart';
 import 'package:apk/commands/post_image.dart';
 import 'package:apk/configs.dart';
 import 'package:apk/utils/builder.dart';
+import 'package:apk/utils/feishu.dart';
 import 'package:apk/utils/net.dart';
 import 'package:apk/utils/tools.dart';
 import 'package:args/args.dart';
@@ -82,7 +83,7 @@ void runApk(ArgParser argParser, List<String> arguments) async {
   }
 
   // upload
-  final json = await upload(apk, builder.msg);
+  final json = await net.upload(apk, builder.msg);
   if (json['code'].integer != 0) {
     print(json['message'].stringValue);
     return;
@@ -96,13 +97,10 @@ void runApk(ArgParser argParser, List<String> arguments) async {
   final apkUrl = 'https://www.pgyer.com/$shortUrl';
 
   //branch name
-  final result = runSync(
-    'git symbolic-ref --short HEAD',
-    builder.project,
-  );
+  final result = runSync('git symbolic-ref --short HEAD', builder.project);
   final branchName = result.stdout;
   final updateDesc = 'branch:$branchName \n${builder.msg}';
 
   // publish
-  postFeishu(apkName, apkUrl, configs.getImageKey(package), updateDesc);
+  feishu.post(apkName, apkUrl, configs.getImageKey(package), updateDesc);
 }

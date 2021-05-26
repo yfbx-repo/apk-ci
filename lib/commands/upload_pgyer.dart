@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:apk/utils/ding.dart';
+import 'package:apk/utils/feishu.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import '../configs.dart';
 import '../utils/net.dart';
 import 'cmd_base.dart';
-import 'post_dingding.dart';
-import 'post_feishu.dart';
 
 ///
 ///上传APK到蒲公英
@@ -65,7 +65,7 @@ class UploadPgyer extends BaseCmd {
 
     final apk = File(file);
 
-    final json = await upload(apk, msg);
+    final json = await net.upload(apk, msg);
     if (json['code'].integer != 0) {
       print(json['message'].stringValue);
       return;
@@ -80,12 +80,12 @@ class UploadPgyer extends BaseCmd {
 
     //发送钉钉消息
     if (needPostDingding) {
-      postDingDing(apkName, apkUrl, msg, qrcode);
+      ding.post('', apkName, apkUrl, msg, qrcode);
     }
     //发送飞书消息
     if (needPostFeishu) {
       final imageKey = configs.getImageKey(packageName);
-      postFeishu(apkName, apkUrl, imageKey, msg);
+      feishu.post(apkName, apkUrl, imageKey, msg);
     }
   }
 }

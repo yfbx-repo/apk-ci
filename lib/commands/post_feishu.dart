@@ -1,8 +1,7 @@
+import 'package:apk/utils/feishu.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
-import '../configs.dart';
-import '../utils/net.dart';
 import 'cmd_base.dart';
 
 ///
@@ -64,62 +63,6 @@ class PostFeishu extends BaseCmd {
     }
 
     final apkName = path.basename(file);
-    postFeishu(apkName, url, image, msg);
-  }
-}
-
-///
-/// 发送飞书机器人消息
-///
-void postFeishu(
-  String apkName,
-  String apkUrl,
-  String imageKey,
-  String msg,
-) async {
-  print('发送飞书机器人消息...');
-
-  //1.换行符分割;2.不能被识别为换行符的\n分割;
-  final updateParams = msg
-      .split(RegExp(r'\r\n?|\n|\\n'))
-      .map((e) => {'tag': 'text', 'text': e})
-      .toList();
-
-  final result = await post(
-    configs.feishu,
-    {
-      'msg_type': 'post',
-      'content': {
-        'post': {
-          'zh_cn': {
-            'title': 'Android APK',
-            'content': [
-              [
-                {
-                  'tag': 'img',
-                  'image_key': imageKey,
-                  'width': 300,
-                  'height': 300
-                }
-              ],
-              [
-                {
-                  'tag': 'a',
-                  'text': apkName,
-                  'href': apkUrl,
-                }
-              ],
-              updateParams,
-            ]
-          }
-        }
-      },
-    },
-  );
-
-  if (result['StatusCode'].integer == 0) {
-    print('发送成功');
-  } else {
-    print(result['msg'].stringValue);
+    feishu.post(apkName, url, image, msg);
   }
 }
