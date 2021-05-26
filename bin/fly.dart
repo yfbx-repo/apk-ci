@@ -98,9 +98,14 @@ void runApk(ArgParser argParser, List<String> arguments) async {
 
   //branch name
   final result = runSync('git symbolic-ref --short HEAD', builder.project);
-  final branchName = result.stdout;
-  final updateDesc = 'branch:$branchName \n${builder.msg}';
+  final branch = result.stdout;
 
   // publish
-  feishu.post(apkName, apkUrl, configs.getImageKey(package), updateDesc);
+  feishu.post(
+    branch,
+    apkName,
+    apkUrl,
+    configs.getImageKey(package),
+    builder.msg,
+  );
 }

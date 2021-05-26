@@ -14,6 +14,7 @@ class Feishu {
   /// 发送飞书机器人消息
   ///
   void post(
+    String branch,
     String name,
     String url,
     String image,
@@ -23,6 +24,7 @@ class Feishu {
     final result = await net.post(
       configs.feishu,
       feishuJson(
+        branch,
         name,
         url,
         image,
@@ -40,6 +42,7 @@ class Feishu {
   /// 飞书参数
   ///
   Map<String, dynamic> feishuJson(
+    String branch,
     String name,
     String url,
     String image,
@@ -58,7 +61,10 @@ class Feishu {
               [
                 {'tag': 'a', 'text': name, 'href': url}
               ],
-              msg.map((e) => {'tag': 'text', 'text': e}).toList(),
+              [
+                {'tag': 'text', 'text': 'branch: $branch'},
+                ...msg.map((e) => {'tag': 'text', 'text': e}).toList(),
+              ],
             ]
           }
         }

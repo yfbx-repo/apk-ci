@@ -63,6 +63,6 @@ class PostFeishu extends BaseCmd {
     }
 
     final apkName = path.basename(file);
-    feishu.post(apkName, url, image, msg);
+    feishu.post('', apkName, url, image, msg);
   }
 }
