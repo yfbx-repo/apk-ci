@@ -1,8 +1,6 @@
+import 'package:apk/net/feishu.dart';
 import 'package:args/args.dart';
-import 'package:dio/dio.dart';
-import 'package:g_json/g_json.dart';
 
-import '../configs.dart';
 import 'cmd_base.dart';
 
 ///
@@ -26,36 +24,6 @@ class PostImage extends BaseCmd {
       return;
     }
     final file = args[0];
-    uploadImage(file);
+    feishu.uploadImage(file);
   }
-}
-
-///
-/// 上传图片到飞书
-///
-void uploadImage(String path) async {
-  //获取token
-  final token = await Dio().post(
-    'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/',
-    data: {
-      'app_id': configs.appId,
-      'app_secret': configs.appSecret,
-    },
-  );
-  print(token);
-  final json = JSON.parse(token.toString());
-  final tenantAccessToken = json['tenant_access_token'].stringValue;
-
-  //上传图片
-  final result = await Dio().post(
-    'https://open.feishu.cn/open-apis/image/v4/put/',
-    data: FormData.fromMap({
-      'image_type': 'message',
-      'image': MultipartFile.fromFileSync(path),
-    }),
-    options: Options(headers: {
-      'Authorization': 'Bearer $tenantAccessToken',
-    }),
-  );
-  print(result);
 }

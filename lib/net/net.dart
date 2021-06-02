@@ -11,9 +11,22 @@ class Net {
   ///
   /// post
   ///
-  Future<JSON> post(String url, Map<String, dynamic> map) async {
+  Future<JSON> post(
+    String url, {
+    data,
+    Map<String, dynamic> headers,
+  }) async {
+    final options = Options();
+    if (headers != null && headers.isNotEmpty) {
+      options.headers = headers;
+    }
+
     try {
-      final result = await Dio().post(url, data: map);
+      final result = await Dio().post(
+        url,
+        data: data,
+        options: options,
+      );
       print(result);
       return JSON.parse(result.toString());
     } on Exception catch (e) {

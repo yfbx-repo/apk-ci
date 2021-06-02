@@ -38,6 +38,11 @@ class PostDing extends BaseCmd {
     );
   }
 
+  String get file => getString('file');
+  String get url => getString('url');
+  String get msg => getString('msg');
+  String get image => getString('image');
+
   @override
   void excute() async {
     final args = argResults.arguments;
@@ -46,16 +51,10 @@ class PostDing extends BaseCmd {
       return;
     }
 
-    final file = getString('file');
-
     if (!file.endsWith('.apk')) {
       printUsage();
       return;
     }
-
-    final url = getString('url');
-    final msg = getString('msg');
-    final image = getString('image');
 
     if (url.isEmpty) {
       print('apk download url is required!');

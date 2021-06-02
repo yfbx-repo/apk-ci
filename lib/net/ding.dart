@@ -34,7 +34,7 @@ class Ding {
 
     final result = await net.post(
       '${server}access_token=${configs.token}',
-      {
+      data:{
         'msgtype': 'markdown',
         'markdown': {
           'title': 'Android APK',
