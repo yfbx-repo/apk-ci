@@ -6,7 +6,7 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import '../configs.dart';
-import '../utils/net.dart';
+import '../utils/pgyer.dart';
 import 'cmd_base.dart';
 
 ///
@@ -65,7 +65,7 @@ class UploadPgyer extends BaseCmd {
 
     final apk = File(file);
 
-    final json = await net.upload(apk, msg);
+    final json = await pgyer.upload(apk, msg);
     if (json['code'].integer != 0) {
       print(json['message'].stringValue);
       return;

@@ -1,5 +1,6 @@
+import 'package:apk/net/net.dart';
+
 import '../configs.dart';
-import 'net.dart';
 
 final feishu = _initFeishu();
 

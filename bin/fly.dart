@@ -1,14 +1,18 @@
 import 'package:apk/commands/post_feishu.dart';
 import 'package:apk/commands/post_image.dart';
 import 'package:apk/configs.dart';
-import 'package:apk/utils/builder.dart';
+import 'package:apk/utils/apk_builder.dart';
 import 'package:apk/utils/feishu.dart';
-import 'package:apk/utils/net.dart';
-import 'package:apk/utils/tools.dart';
+import 'package:apk/utils/pgyer.dart';
+import 'package:apk/utils/shell.dart';
+import 'package:apk/utils/args.dart';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as path;
 
+///
+///打包APk->上传APK到蒲公英->发送机器人消息到飞书
+///
 void main(List<String> arguments) {
   final runner = CommandRunner('fly', '');
   buildArgs(runner.argParser);
@@ -76,14 +80,14 @@ void runApk(ArgParser argParser, List<String> arguments) async {
     return;
   }
   // build apk
-  final builder = Builder(args);
+  final builder = ApkBuilder(args);
   final apk = await builder.buildApk();
   if (apk == null) {
     return;
   }
 
   // upload
-  final json = await net.upload(apk, builder.msg);
+  final json = await pgyer.upload(apk, builder.msg);
   if (json['code'].integer != 0) {
     print(json['message'].stringValue);
     return;

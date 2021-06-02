@@ -1,5 +1,6 @@
+import 'package:apk/net/net.dart';
+
 import '../configs.dart';
-import 'net.dart';
 
 final ding = _initDing();
 
@@ -21,7 +22,6 @@ class Ding {
     String image,
   ) async {
     print('发送钉钉机器人消息...');
-
 
     final buffer = StringBuffer();
     buffer.writeln('![]($image)    ');

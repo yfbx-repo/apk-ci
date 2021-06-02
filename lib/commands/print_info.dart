@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-import '../utils/apk.dart';
+import '../utils/apk_file.dart';
 import 'cmd_base.dart';
 
 ///

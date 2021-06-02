@@ -6,13 +6,13 @@ import 'package:path/path.dart' as path;
 
 import '../configs.dart';
 
-final net = _initNet();
+final pgyer = _initPgyer();
 
-Net _initNet() {
-  return Net();
+Pgyer _initPgyer() {
+  return Pgyer();
 }
 
-class Net {
+class Pgyer {
   ///
   /// 上传APK到蒲公英
   ///
@@ -35,20 +35,6 @@ class Net {
       return JSON.parse(result.toString());
     } on Exception catch (e) {
       print('APK上传失败:$e');
-      return JSON.nil;
-    }
-  }
-
-  ///
-  /// post
-  ///
-  Future<JSON> post(String url, Map<String, dynamic> map) async {
-    try {
-      final result = await Dio().post(url, data: map);
-      print(result);
-      return JSON.parse(result.toString());
-    } on Exception catch (e) {
-      print('发送失败:\n$e');
       return JSON.nil;
     }
   }

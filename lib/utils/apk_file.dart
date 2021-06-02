@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'tools.dart';
+import 'shell.dart';
 
-extension APK on FileSystemEntity {
+extension ApkFile on FileSystemEntity {
   ///
   /// 获取APP中文名
   /// application-label-zh-CN:'寓小二'

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
-import 'tools.dart';
+import 'shell.dart';
+import 'args.dart';
 
-class Builder {
+class ApkBuilder {
   final ArgResults args;
 
-  Builder(this.args);
+  ApkBuilder(this.args);
 
   bool get isRelease => args.getBool('release');
   String get flavor => args.getString('flavor');
