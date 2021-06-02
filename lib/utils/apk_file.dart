@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:path/path.dart' as _path;
+
 import 'shell.dart';
 
 extension ApkFile on FileSystemEntity {
+  String get fileName => _path.basename(path);
+
   ///
   /// 获取APP中文名
   /// application-label-zh-CN:'寓小二'
@@ -34,7 +38,7 @@ extension ApkFile on FileSystemEntity {
 
   ///
   /// 获取APK信息
-  /// 需要配置aapt环境变量，位于AndroidSDK\build-tools目录下
+  /// TODO: 需要配置aapt环境变量，位于AndroidSDK\build-tools目录下
   ///
   String getApkInfo(String filterKey) {
     final filter =
@@ -50,7 +54,7 @@ extension ApkFile on FileSystemEntity {
   ///
   /// 获取APK签名信息
   /// MD5、SHA1、SHA256
-  ///
+  ///TODO: 需要配置Java环境
   String _getCertInfo(String type) {
     final filter = Platform.isWindows ? '|findStr /i $type' : '|grep -i $type';
     final cmd = 'keytool -list -printcert -jarfile $path $filter';

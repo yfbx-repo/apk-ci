@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:apk/utils/env.dart';
 import 'package:args/args.dart';
-import 'package:path/path.dart' as path;
 
-import 'shell.dart';
 import 'args.dart';
+import 'shell.dart';
 
 class ApkBuilder {
   final ArgResults args;
@@ -52,12 +52,7 @@ class ApkBuilder {
     print('\n正在打包...\n');
     await shell('gradlew assemble$flavor$type', project);
 
-    final files = Directory(project).listSync(
-      recursive: true, //递归到子目录
-      followLinks: false, //不包含链接
-    );
-
-    return files.firstWhere((file) => path.extension(file.path) == '.apk');
+    return env.findApk(project);
   }
 
   ///
@@ -73,11 +68,6 @@ class ApkBuilder {
     print('\n正在打包...\n');
     await shell('flutter build apk $type $flavorType', project);
 
-    final dir = '$project/build';
-    final files = Directory(dir).listSync(
-      recursive: true, //递归到子目录
-      followLinks: false, //不包含链接
-    );
-    return files.firstWhere((file) => path.extension(file.path) == '.apk');
+    return env.findApk('$project/build');
   }
 }

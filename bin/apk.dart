@@ -70,7 +70,7 @@ void buildArgs(ArgParser argParser) {
   argParser.addOption(
     'msg',
     abbr: 'm',
-    help: 'The robot message post to dingding',
+    help: 'The robot message post to dingding or feishu',
   );
 }
 

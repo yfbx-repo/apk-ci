@@ -17,20 +17,11 @@ class PrintInfo extends BaseCmd {
 
   @override
   void buildArgs(ArgParser argParser) {
-    argParser.addOption(
-      'file',
-      abbr: 'f',
-      help: 'The APK file.',
-    );
-
-    argParser.addFlag('package', negatable: false, abbr: 'p');
     argParser.addFlag('MD5', negatable: false);
     argParser.addFlag('SHA1', negatable: false);
     argParser.addFlag('SHA256', negatable: false);
   }
 
-  String get file => getString('file');
-  bool get printPackage => getBool('package');
   bool get printMD5 => getBool('MD5');
   bool get printSHA1 => getBool('SHA1');
   bool get printSHA256 => getBool('SHA256');
@@ -39,16 +30,18 @@ class PrintInfo extends BaseCmd {
   void excute() async {
     final args = argResults.arguments;
     if (args == null || args.isEmpty) {
-      printUsage();
+      print('Usage: apk print [arguments] <file path>');
       return;
     }
-    final filePath = file.isEmpty ? args.last : file;
+    final filePath = args.last;
     if (!filePath.endsWith('.apk')) {
-      printUsage();
+      print('Usage: apk print [arguments] <file path>');
       return;
     }
 
     final apk = File(filePath);
+
+    print(apk.getApkInfo('package'));
 
     if (printMD5) {
       print(apk.certMD5);
@@ -61,9 +54,6 @@ class PrintInfo extends BaseCmd {
     if (printSHA256) {
       print(apk.certSHA256);
       print(apk.certSHA256.split(':').join());
-    }
-    if (printPackage) {
-      print(apk.getApkInfo('package'));
     }
   }
 }

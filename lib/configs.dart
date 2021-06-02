@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:apk/utils/env.dart';
 import 'package:g_json/g_json.dart';
 
 ///
@@ -9,8 +8,8 @@ class Configs {
   JSON _json;
 
   Configs._() {
-    final filePath = 'D:\\demos\\apk_ci\\configs.json';
-    final jsonStr = File(filePath).readAsStringSync();
+    //TODO:本地配置文件路径
+    final jsonStr = env.readFile('D:\\demos\\apk_ci\\configs.json');
     _json = JSON.parse(jsonStr);
   }
 
