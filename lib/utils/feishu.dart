@@ -59,12 +59,12 @@ class Feishu {
                 {'tag': 'img', 'image_key': image, 'width': 300, 'height': 300}
               ],
               [
-                {'tag': 'text', 'text': 'branch: $branch'},
-              ],
-              [
                 {'tag': 'a', 'text': name, 'href': url}
               ],
-              ...msg.map((e) => {'tag': 'text', 'text': e}).toList(),
+              [
+                {'tag': 'text', 'text': 'branch: $branch'},
+                ...msg.map((e) => {'tag': 'text', 'text': e}).toList(),
+              ],
             ]
           }
         }
