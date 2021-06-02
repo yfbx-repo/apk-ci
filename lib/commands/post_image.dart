@@ -1,6 +1,6 @@
-import 'package:apk/net/feishu.dart';
 import 'package:args/args.dart';
 
+import '../net/feishu.dart';
 import 'cmd_base.dart';
 
 ///

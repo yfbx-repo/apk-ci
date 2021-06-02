@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:apk/utils/env.dart';
 import 'package:args/args.dart';
 
 import 'args.dart';
+import 'env.dart';
 import 'shell.dart';
 
 class ApkBuilder {

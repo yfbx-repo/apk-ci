@@ -1,13 +1,13 @@
-import 'package:apk/net/ding.dart';
-import 'package:apk/net/feishu.dart';
-import 'package:apk/net/pgyer.dart';
-import 'package:apk/utils/apk_builder.dart';
-import 'package:apk/utils/apk_file.dart';
-import 'package:apk/utils/args.dart';
-import 'package:apk/utils/shell.dart';
 import 'package:args/args.dart';
 
 import '../configs.dart';
+import '../net/ding.dart';
+import '../net/feishu.dart';
+import '../net/pgyer.dart';
+import '../utils/apk_builder.dart';
+import '../utils/apk_file.dart';
+import '../utils/args.dart';
+import '../utils/shell.dart';
 
 class ApkRunner {
   final ArgParser argParser;

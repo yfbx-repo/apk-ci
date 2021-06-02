@@ -1,6 +1,5 @@
-import 'package:apk/net/net.dart';
-
 import '../configs.dart';
+import '../net/net.dart';
 
 final ding = _initDing();
 
@@ -34,7 +33,7 @@ class Ding {
 
     final result = await net.post(
       '${server}access_token=${configs.token}',
-      data:{
+      data: {
         'msgtype': 'markdown',
         'markdown': {
           'title': 'Android APK',

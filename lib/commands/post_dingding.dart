@@ -1,7 +1,7 @@
-import 'package:apk/net/ding.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
+import '../net/ding.dart';
 import 'cmd_base.dart';
 
 ///

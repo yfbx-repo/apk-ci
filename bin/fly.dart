@@ -1,7 +1,7 @@
-import 'package:apk/commands/apk_runner.dart';
-import 'package:apk/commands/post_feishu.dart';
-import 'package:apk/commands/post_image.dart';
 import 'package:args/command_runner.dart';
+import 'package:ci_tools/commands/apk_runner.dart';
+import 'package:ci_tools/commands/post_feishu.dart';
+import 'package:ci_tools/commands/post_image.dart';
 
 ///
 ///打包APk->上传APK到蒲公英->发送机器人消息到飞书

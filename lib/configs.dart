@@ -1,5 +1,6 @@
-import 'package:apk/utils/env.dart';
 import 'package:g_json/g_json.dart';
+
+import '../utils/env.dart';
 
 ///
 /// 配置信息

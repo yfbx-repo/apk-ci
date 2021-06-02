@@ -1,8 +1,8 @@
-import 'package:apk/commands/apk_runner.dart';
-import 'package:apk/commands/post_dingding.dart';
-import 'package:apk/commands/print_info.dart';
-import 'package:apk/commands/upload_pgyer.dart';
 import 'package:args/command_runner.dart';
+import 'package:ci_tools/commands/apk_runner.dart';
+import 'package:ci_tools/commands/post_dingding.dart';
+import 'package:ci_tools/commands/print_info.dart';
+import 'package:ci_tools/commands/upload_pgyer.dart';
 
 ///
 ///打包APk->上传APK到蒲公英->发送机器人消息到钉钉
