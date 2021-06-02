@@ -1,4 +1,4 @@
-import 'package:apk/utils/ding.dart';
+import 'package:apk/net/ding.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 

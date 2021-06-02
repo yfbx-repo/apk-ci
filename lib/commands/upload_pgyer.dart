@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:apk/utils/ding.dart';
-import 'package:apk/utils/feishu.dart';
+import 'package:apk/net/ding.dart';
+import 'package:apk/net/feishu.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 import '../configs.dart';
-import '../utils/pgyer.dart';
+import '../net/pgyer.dart';
 import 'cmd_base.dart';
 
 ///
