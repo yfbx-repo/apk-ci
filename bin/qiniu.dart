@@ -44,7 +44,7 @@ void upload(String filePath, String prefix) async {
     }),
   );
 
-  print(result);
+  print(result.rawString());
 }
 
 String genToken() {
