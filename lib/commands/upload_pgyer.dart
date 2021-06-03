@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 import '../configs.dart';
-import '../net/ding.dart';
-import '../net/feishu.dart';
 import '../net/pgyer.dart';
+import '../robot/robot.dart';
 import '../utils/apk_file.dart';
 import 'cmd_base.dart';
 
@@ -34,19 +33,19 @@ class UploadPgyer extends BaseCmd {
     argParser.addFlag(
       'dingding',
       negatable: false,
-      help: 'If need to post DingDing message.',
+      help: 'Post DingDing message.',
     );
     argParser.addFlag(
       'feishu',
       negatable: false,
-      help: 'If need to post Feishu message.',
+      help: 'Post Feishu message.',
     );
   }
 
   String get file => getString('file');
   String get msg => getString('msg');
-  bool get postDingding => getBool('dingding');
-  bool get postFeishu => getBool('feishu');
+  bool get dingding => getBool('dingding');
+  bool get feishu => getBool('feishu');
 
   @override
   void excute() async {
@@ -72,20 +71,18 @@ class UploadPgyer extends BaseCmd {
     }
     print('上传成功');
 
-    final apkName = apk.fileName;
+    final package = json['data']['appIdentifier'].stringValue;
     final qrcode = json['data']['appQRCodeURL'].stringValue;
     final shortUrl = json['data']['appShortcutUrl'].stringValue;
-    final packageName = json['data']['appIdentifier'].stringValue;
     final apkUrl = 'https://www.pgyer.com/$shortUrl';
 
-    //发送钉钉消息
-    if (postDingding) {
-      ding.post('', apkName, apkUrl, msg, qrcode);
-    }
-    //发送飞书消息
-    if (postFeishu) {
-      final imageKey = configs.getImageKey(packageName);
-      feishu.post('', apkName, apkUrl, imageKey, msg);
-    }
+    Robot.post(
+      name: apk.fileName,
+      url: apkUrl,
+      msg: msg,
+      image: dingding ? qrcode : configs.getImageKey(package),
+      dingding: dingding,
+      feishu: feishu,
+    );
   }
 }

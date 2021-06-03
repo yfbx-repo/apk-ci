@@ -1,12 +1,12 @@
 import 'package:args/args.dart';
 
-import '../net/feishu.dart';
+import '../robot/feishu.dart';
 import 'cmd_base.dart';
 
 ///
 ///上传图片到飞书
 ///
-class PostImage extends BaseCmd {
+class PostFeishuImage extends BaseCmd {
   @override
   String get description => 'upload image to feishu';
 
@@ -24,6 +24,6 @@ class PostImage extends BaseCmd {
       return;
     }
     final file = args[0];
-    feishu.uploadImage(file);
+    Feishu().uploadImage(file);
   }
 }

@@ -4,15 +4,7 @@ import 'package:g_json/g_json.dart';
 import '../configs.dart';
 import '../net/net.dart';
 
-final feishu = _initFeishu();
-
-Feishu _initFeishu() {
-  return Feishu._();
-}
-
 class Feishu {
-  Feishu._();
-
   ///
   /// 发送飞书机器人消息
   ///
@@ -20,8 +12,8 @@ class Feishu {
     String branch,
     String name,
     String url,
+    String msg,
     String image,
-    String updateDesc,
   ) async {
     print('发送飞书机器人消息...');
     final result = await net.post(
@@ -31,7 +23,7 @@ class Feishu {
         name,
         url,
         image,
-        updateDesc.split(RegExp(r'\r\n?|\n|\\n')),
+        msg.split(RegExp(r'\r\n?|\n|\\n')),
       ),
     );
     if (result['StatusCode'].integer == 0) {

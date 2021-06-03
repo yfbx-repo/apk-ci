@@ -1,9 +1,8 @@
 import 'package:args/args.dart';
 
 import '../configs.dart';
-import '../net/ding.dart';
-import '../net/feishu.dart';
 import '../net/pgyer.dart';
+import '../robot/robot.dart';
 import '../utils/apk_builder.dart';
 import '../utils/apk_file.dart';
 import '../utils/args.dart';
@@ -12,13 +11,8 @@ import '../utils/shell.dart';
 class ApkRunner {
   final ArgParser argParser;
   final List<String> arguments;
-  final String channel;
 
-  ApkRunner.dingding(this.argParser, this.arguments) : channel = 'dingding' {
-    _buildArgs();
-  }
-
-  ApkRunner.feishu(this.argParser, this.arguments) : channel = 'feishu' {
+  ApkRunner(this.argParser, this.arguments) {
     _buildArgs();
   }
 
@@ -55,6 +49,16 @@ class ApkRunner {
       abbr: 'm',
       help: 'The robot message post to dingding or feishu',
     );
+    argParser.addFlag(
+      'dingding',
+      negatable: false,
+      help: 'Post dingding robot message.',
+    );
+    argParser.addFlag(
+      'feishu',
+      negatable: false,
+      help: 'Post feishu robot message.',
+    );
   }
 
   void run() async {
@@ -63,6 +67,9 @@ class ApkRunner {
       print(argParser.usage);
       return;
     }
+
+    final dingding = results.getBool('dingding');
+    final feishu = results.getBool('feishu');
 
     final builder = ApkBuilder(results);
     final apk = await builder.buildApk();
@@ -79,7 +86,6 @@ class ApkRunner {
     print('上传成功');
 
     //params
-    final apkName = apk.fileName;
     final package = json['data']['appIdentifier'].stringValue;
     final qrcode = json['data']['appQRCodeURL'].stringValue;
     final shortUrl = json['data']['appShortcutUrl'].stringValue;
@@ -88,17 +94,14 @@ class ApkRunner {
     final result = runSync('git symbolic-ref --short HEAD', builder.project);
     final branchName = result.stdout;
     //publish
-    if (channel == 'dingding') {
-      ding.post(branchName, apkName, apkUrl, builder.msg, qrcode);
-    }
-    if (channel == 'feishu') {
-      feishu.post(
-        branchName,
-        apkName,
-        apkUrl,
-        configs.getImageKey(package),
-        builder.msg,
-      );
-    }
+    Robot.post(
+      branch: branchName,
+      name: apk.fileName,
+      url: apkUrl,
+      msg: builder.msg,
+      image: dingding ? qrcode : configs.getImageKey(package),
+      dingding: dingding,
+      feishu: feishu,
+    );
   }
 }

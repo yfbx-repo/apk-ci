@@ -1,13 +1,7 @@
 import '../configs.dart';
 import '../net/net.dart';
 
-final ding = _initDing();
-
-Ding _initDing() {
-  return Ding();
-}
-
-class Ding {
+class DingDing {
   final server = 'https://oapi.dingtalk.com/robot/send?';
 
   ///
