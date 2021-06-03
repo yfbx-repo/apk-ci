@@ -7,10 +7,11 @@ environment:
   sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
-  path: ^1.7.0
-  args: ^1.6.0
-  dio: ^3.0.10
+  path: ^1.8.0
+  args: ^2.1.1
+  dio: ^4.0.0
   g_json: ^4.0.0
+  crypto: ^3.0.1
 
 dev_dependencies:
   pedantic: ^1.11.0
@@ -18,3 +19,4 @@ dev_dependencies:
 executables:
   apk: apk
   fly: fly
+  qiniu: qiniu

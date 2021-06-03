@@ -9,6 +9,33 @@ Net _initNet() {
 
 class Net {
   ///
+  /// get
+  ///
+  Future<JSON> get(
+    String url, {
+    Map<String, dynamic> params,
+    Map<String, dynamic> headers,
+  }) async {
+    final options = Options();
+    if (headers != null && headers.isNotEmpty) {
+      options.headers = headers;
+    }
+
+    try {
+      final result = await Dio().get(
+        url,
+        queryParameters: params,
+        options: options,
+      );
+      print(result);
+      return JSON.parse(result.toString());
+    } on Exception catch (e) {
+      print(e);
+      return JSON.nil;
+    }
+  }
+
+  ///
   /// post
   ///
   Future<JSON> post(
@@ -30,7 +57,7 @@ class Net {
       print(result);
       return JSON.parse(result.toString());
     } on Exception catch (e) {
-      print('发送失败:\n$e');
+      print(e);
       return JSON.nil;
     }
   }

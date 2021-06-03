@@ -15,15 +15,18 @@ class Configs {
   }
 
   //蒲公英
-  String get userKey => _json['userKey'].stringValue;
-  String get apiKey => _json['apiKey'].stringValue;
+  String get userKey => _json['pgyer']['userKey'].stringValue;
+  String get apiKey => _json['pgyer']['apiKey'].stringValue;
+  //七牛云
+  String get accessKey => _json['qiniu']['accessKey'].stringValue;
   //钉钉
-  String get token => _json['token'].stringValue;
+  String get token => _json['dingding']['token'].stringValue;
   //飞书
-  String get feishu => _json['feishu'].stringValue;
-  String get appId => _json['app_id'].stringValue;
-  String get appSecret => _json['app_secret'].stringValue;
-  List<JSON> get imageKeys => _json['imageKeys'].listValue;
+  String get appId => _json['feishu']['app_id'].stringValue;
+  String get appSecret => _json['feishu']['app_secret'].stringValue;
+  String get server => _json['feishu']['server'].stringValue;
+  List<JSON> get imageKeys => _json['feishu']['imageKeys'].listValue;
+
   String getImageKey(String package) {
     final item = imageKeys.firstWhere(
       (e) => e['package'].stringValue == package,

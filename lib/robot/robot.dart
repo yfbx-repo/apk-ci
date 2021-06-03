@@ -24,7 +24,7 @@ class Robot {
       if (configs.token.isNotEmpty) {
         DingDing().post(branch, name, url, msg, image);
       }
-      if (configs.feishu.isNotEmpty) {
+      if (configs.server.isNotEmpty) {
         Feishu().post(branch, name, url, msg, image);
       }
     }

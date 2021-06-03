@@ -17,7 +17,7 @@ class Feishu {
   ) async {
     print('发送飞书机器人消息...');
     final result = await net.post(
-      configs.feishu,
+      configs.server,
       data: _buildArgs(
         branch,
         name,
