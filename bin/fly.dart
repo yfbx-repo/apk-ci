@@ -1,5 +1,5 @@
+import 'package:apk_ci/commands/post_feishu_image.dart';
 import 'package:args/command_runner.dart';
-import 'package:ci_tools/commands/post_feishu_image.dart';
 
 ///
 ///飞书
