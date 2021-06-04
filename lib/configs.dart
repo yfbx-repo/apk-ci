@@ -19,6 +19,7 @@ class Configs {
   String get apiKey => _json['pgyer']['apiKey'].stringValue;
   //七牛云
   String get accessKey => _json['qiniu']['accessKey'].stringValue;
+  String get secretKey => _json['qiniu']['secretKey'].stringValue;
   //钉钉
   String get token => _json['dingding']['token'].stringValue;
   //飞书

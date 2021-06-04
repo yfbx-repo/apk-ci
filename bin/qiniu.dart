@@ -10,7 +10,7 @@ import 'package:g_json/g_json.dart';
 import 'package:path/path.dart' as _path;
 
 ///
-/// 上传图片到七牛云
+/// 上传文件到七牛云
 ///
 void main(List<String> args) {
   if (args == null || args.isEmpty) {
@@ -29,11 +29,11 @@ void main(List<String> args) {
 ///
 /// 上传
 ///
-void upload(String filePath, String prefix) async {
+void upload(String filePath, String prefix) {
   final fileName = _path.basename(filePath);
   final token = genToken();
   final key = '$prefix/$fileName';
-  final result = await net.post(
+  net.post(
     'https://up.qbox.me/',
     data: FormData.fromMap({
       'token': token,
@@ -43,12 +43,11 @@ void upload(String filePath, String prefix) async {
       'file': MultipartFile.fromFileSync(filePath, filename: fileName),
     }),
   );
-
-  print(result.rawString());
 }
 
 String genToken() {
   final accessKey = configs.accessKey;
+  final secretKey = configs.secretKey;
   final now = DateTime.now().millisecondsSinceEpoch;
   final deadline = Duration(milliseconds: now) + Duration(seconds: 3600);
 
@@ -59,14 +58,13 @@ String genToken() {
   }).rawString();
 
   //base 64
-  final policy64 = base64UrlEncode(utf8.encode(policy));
+  final policy64 = base64Url.encode(utf8.encode(policy));
 
   //签名
-  final hmac = Hmac(sha1, utf8.encode(accessKey))
-      .convert(utf8.encode(policy64))
-      .toString();
+  final hmac =
+      Hmac(sha1, utf8.encode(secretKey)).convert(utf8.encode(policy64)).bytes;
 
-  final encodeSign = base64UrlEncode(utf8.encode(hmac));
+  final encodeSign = base64Url.encode(hmac);
 
   return '$accessKey:$encodeSign:$policy64';
 }
