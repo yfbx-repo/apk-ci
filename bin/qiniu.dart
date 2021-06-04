@@ -22,6 +22,12 @@ void main(List<String> args) {
   argParser.addOption('prefix', abbr: 'p');
   final argResult = argParser.parse(args);
   final prefix = argResult.getString('prefix');
+
+  if (prefix.isEmpty) {
+    print('Usage: qiniu -p <prefix> <file path>');
+    return;
+  }
+
   final filePath = args.last;
   upload(filePath, prefix);
 }
