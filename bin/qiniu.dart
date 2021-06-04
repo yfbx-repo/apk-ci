@@ -35,11 +35,11 @@ void main(List<String> args) {
 ///
 /// 上传
 ///
-void upload(String filePath, String prefix) {
+void upload(String filePath, String prefix) async {
   final fileName = _path.basename(filePath);
   final token = genToken();
   final key = '$prefix/$fileName';
-  net.post(
+  final result = await net.post(
     'https://up.qbox.me/',
     data: FormData.fromMap({
       'token': token,
@@ -49,6 +49,10 @@ void upload(String filePath, String prefix) {
       'file': MultipartFile.fromFileSync(filePath, filename: fileName),
     }),
   );
+
+  if (!result.isNull) {
+    print('https://static.yuxiaor.com/$key');
+  }
 }
 
 String genToken() {
